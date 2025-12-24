@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Gallery</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <a href="/">Streams</a>
+      <a href="/gallery.html" class="active">Video Gallery</a>
+    </nav>
+    <h1>Video Gallery</h1>
+
+    <div class="card">
+      <h2>Upload New Video</h2>
+      <form id="uploadForm">
+        <div class="form-group">
+          <label for="videoTitle">Video Title</label>
+          <input type="text" id="videoTitle" required>
+        </div>
+        <div class="form-group">
+          <label for="videoFile">MP4 File</label>
+          <input type="file" id="videoFile" accept="video/mp4" required>
+        </div>
+        <button type="submit">Upload Video</button>
+      </form>
+      <p id="uploadStatus"></p>
+    </div>
+
+    <div class="card">
+      <h2>Available Videos</h2>
+      <div id="videoGrid" class="grid"></div>
+    </div>
+  </div>
+
+  <div id="videoPreviewModal">
+    <div class="modal-content">
+      <h3 id="previewTitle"></h3>
+      <video id="videoPlayer" controls></video>
+      <br>
+      <button id="closeModal">Close</button>
+    </div>
+  </div>
+
+  <script src="/js/gallery.js"></script>
+</body>
+</html>

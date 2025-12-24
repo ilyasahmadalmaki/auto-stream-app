@@ -1,0 +1,13 @@
+# Abaikan folder modules yang diinstall oleh npm
+/node_modules
+
+# Abaikan file environment yang berisi rahasia
+.env
+
+# Abaikan file database
+database.sqlite
+database.sqlite-journal
+
+# Abaikan folder video yang diupload
+/videos/
+
