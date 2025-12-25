@@ -1,51 +1,67 @@
-// streamManager.js
+// streamManager.js (Versi Final)
 const { spawn } = require('child_process');
 
 // Objek untuk menyimpan referensi ke proses FFmpeg yang sedang berjalan
+// Kunci adalah ID stream, nilainya adalah proses yang di-spawn
 const activeStreams = {};
 
 const startStream = (stream) => {
+  // Pencegahan agar tidak memulai stream yang sama dua kali
   if (activeStreams[stream.id]) {
-    console.log(`Stream ${stream.id} is already running.`);
+    console.log(`[StreamManager] Attempted to start stream ${stream.id}, but it is already running.`);
     return;
   }
 
   const rtmpEndpoint = `${stream.rtmp_url}/${stream.stream_key}`;
 
   const ffmpegArgs = [
-    '-re',
-    '-stream_loop', '-1',
-    '-i', stream.video_path,
-    '-c:v', 'copy',
-    '-c:a', 'copy',
-    '-f', 'flv',
+    '-re',                      // Baca input pada kecepatan native (real-time)
+    '-stream_loop', '-1',       // Looping video tanpa henti
+    '-i', stream.video_path,    // Path ke file video input
+    '-c:v', 'copy',             // Salin stream video tanpa re-encode
+    '-c:a', 'copy',             // Salin stream audio tanpa re-encode
+    '-f', 'flv',                // Format output untuk RTMP
     rtmpEndpoint,
   ];
 
-  console.log(`Starting FFmpeg for stream ${stream.id}: ffmpeg ${ffmpegArgs.join(' ')}`);
+  console.log(`[StreamManager] Spawning FFmpeg for stream ${stream.id}: ffmpeg ${ffmpegArgs.join(' ')}`);
 
-  const ffmpegProcess = spawn('ffmpeg', ffmpegArgs, { detached: true });
+  const ffmpegProcess = spawn('ffmpeg', ffmpegArgs, {
+    // Jalankan proses secara detached agar tidak terikat dengan proses utama Node.js
+    detached: true, 
+    // Abaikan output stdout dan stderr dari proses child agar tidak membanjiri log utama
+    stdio: 'ignore' 
+  });
+
+  // Simpan referensi proses
   activeStreams[stream.id] = ffmpegProcess;
 
-  ffmpegProcess.stderr.on('data', (data) => {
-    console.error(`FFMPEG stderr ${stream.id}: ${data.toString()}`);
-  });
-
+  // Hapus referensi ketika proses selesai
   ffmpegProcess.on('close', (code) => {
-    console.log(`FFmpeg process for stream ${stream.id} exited with code ${code}`);
+    console.log(`[StreamManager] FFmpeg process for stream ${stream.id} exited with code ${code}.`);
     delete activeStreams[stream.id];
   });
+  
+  // Lepaskan proses child dari parent agar bisa terus berjalan jika parent crash
+  ffmpegProcess.unref();
 };
 
 const stopStream = (streamId) => {
   const process = activeStreams[streamId];
   if (process) {
-    console.log(`Stopping stream ${streamId} with SIGTERM.`);
-    process.kill('SIGTERM');
+    console.log(`[StreamManager] Sending SIGTERM to stop stream ${streamId}.`);
+    // Gunakan SIGTERM untuk menghentikan proses secara "sopan"
+    process.kill('SIGTERM'); 
     delete activeStreams[streamId];
   } else {
-    console.log(`No active stream process found for ID ${streamId}.`);
+    console.log(`[StreamManager] No active stream process found for ID ${streamId} to stop.`);
   }
 };
 
-module.exports = { startStream, stopStream, activeStreams };
+const streamManager = {
+    startStream,
+    stopStream,
+    activeStreams
+};
+
+module.exports = { streamManager };

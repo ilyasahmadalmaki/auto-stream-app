@@ -1,73 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auto Stream Dashboard</title>
-  <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream Control Panel</title>
+    <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-  <div class="container">
-    <nav>
-      <a href="/" class="active">Streams</a>
-      <a href="/gallery.html">Video Gallery</a>
-    </nav>
-    <h1>Stream Dashboard</h1>
-
-    <div class="card">
-      <h2>Create New Stream</h2>
-      <form id="streamForm">
-        <div class="form-group">
-          <label for="title">Stream Title</label>
-          <input type="text" id="title" required>
-        </div>
-        <div class="form-group">
-          <label for="stream_key">YouTube Stream Key</label>
-          <input type="text" id="stream_key" required>
-        </div>
-        <div class="form-group">
-          <label for="video_id">Select Video</label>
-          <select id="video_id" required></select>
-        </div>
-        <div class="form-group">
-          <label for="schedule_type">Schedule Type</label>
-          <select id="schedule_type" required>
-            <option value="once">Once</option>
-            <option value="daily">Daily</option>
-          </select>
-        </div>
-
-        <div id="onceFields">
-          <div class="form-group">
-            <label for="start_datetime">Start Time</label>
-            <input type="datetime-local" id="start_datetime">
-          </div>
-          <div class="form-group">
-            <label for="end_datetime">End Time</label>
-            <input type="datetime-local" id="end_datetime">
-          </div>
-        </div>
-
-        <div id="dailyFields" style="display:none;">
-          <div class="form-group">
-            <label for="daily_start_time">Daily Start Time</label>
-            <input type="time" id="daily_start_time">
-          </div>
-          <div class="form-group">
-            <label for="daily_duration_hours">Duration (in hours)</label>
-            <input type="number" id="daily_duration_hours" min="1">
-          </div>
-        </div>
-        
-        <button type="submit">Schedule Stream</button>
-      </form>
+    <div class="main-container">
+        <header class="dashboard-header">
+            <div class="header-title"><h1>Stream Control Panel</h1></div>
+            <div class="header-stats"><span id="system-stats">Loading stats...</span></div>
+            <div class="header-time">
+                <span id="digital-clock">00:00:00</span>
+                <span id="date-display">Loading date...</span>
+            </div>
+        </header>
+        <main class="content-area">
+            <div class="toolbar">
+                <h2>Streams Management</h2>
+                <div>
+                    <a href="/gallery.html" class="btn">Video Gallery</a>
+                    <button id="add-stream-btn" class="btn btn-primary">Add New Stream</button>
+                </div>
+            </div>
+            <div id="stream-list-header" class="stream-list-header">
+                <div>Title</div>
+                <div>Status</div>
+                <div>Next Schedule</div>
+                <div class="actions-header">Actions</div>
+            </div>
+            <div id="stream-list" class="stream-list"><p class="loading-state">Loading streams...</p></div>
+        </main>
     </div>
-
-    <div class="card">
-      <h2>Scheduled Streams</h2>
-      <div id="streamsList"></div>
-    </div>
-  </div>
-  <script src="/js/main.js"></script>
+    <div id="modal-overlay" class="modal-overlay"><div id="modal-content" class="modal-content"></div></div>
+    <script src="/js/dashboard.js"></script>
 </body>
 </html>

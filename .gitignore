@@ -1,13 +1,16 @@
-# Abaikan folder modules yang diinstall oleh npm
+# Dependencies
 /node_modules
 
-# Abaikan file environment yang berisi rahasia
+# Environment variables
 .env
 
-# Abaikan file database
+# SQLite database
 database.sqlite
 database.sqlite-journal
 
-# Abaikan folder video yang diupload
+# Uploaded videos
 /videos/
 
+# PM2 logs
+*.log
+/logs/
