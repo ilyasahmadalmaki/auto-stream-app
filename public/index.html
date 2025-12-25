@@ -1,39 +1,20 @@
+<!-- public/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ... tag head lainnya ... -->
     <title>Stream Control Panel</title>
     <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body>
-    <div class="main-container">
-        <header class="dashboard-header">
-            <div class="header-title"><h1>Stream Control Panel</h1></div>
-            <div class="header-stats"><span id="system-stats">Loading stats...</span></div>
-            <div class="header-time">
-                <span id="digital-clock">00:00:00</span>
-                <span id="date-display">Loading date...</span>
-            </div>
-        </header>
-        <main class="content-area">
-            <div class="toolbar">
-                <h2>Streams Management</h2>
-                <div>
-                    <a href="/gallery.html" class="btn">Video Gallery</a>
-                    <button id="add-stream-btn" class="btn btn-primary">Add New Stream</button>
-                </div>
-            </div>
-            <div id="stream-list-header" class="stream-list-header">
-                <div>Title</div>
-                <div>Status</div>
-                <div>Next Schedule</div>
-                <div class="actions-header">Actions</div>
-            </div>
-            <div id="stream-list" class="stream-list"><p class="loading-state">Loading streams...</p></div>
-        </main>
-    </div>
-    <div id="modal-overlay" class="modal-overlay"><div id="modal-content" class="modal-content"></div></div>
+    <!-- ... seluruh isi body ... -->
+    
+    <!-- ==================== SCRIPT UTAMA ==================== -->
+    <!-- TAMBAHKAN DAY.JS DI SINI -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/utc.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/timezone.js"></script>
+    <!-- SCRIPT UTAMA ANDA -->
     <script src="/js/dashboard.js"></script>
 </body>
 </html>
